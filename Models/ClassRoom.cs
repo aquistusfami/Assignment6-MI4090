@@ -8,7 +8,7 @@ namespace Assignment6_MI4090;
 
 public class ClassRoom
 {
-  public string ClassRoomID { get; }
+  public string ClassRoomId { get; }
   public string ClassRoomName { get; }
   public decimal Space { get; }
   private readonly List<TeachingDevice> devices = new List<TeachingDevice>();
@@ -31,7 +31,7 @@ public class ClassRoom
   /// Thêm thiết bị 
   /// </summary>
   /// <param name="device">Thiết bị</param>
-  public void AddDevice(Device device)
+  public void AddDevice(TeachingDevice device)
   {
     if (device == null) throw new ArgumentNullException(nameof(device), "Thiết bị không được rỗng.");
     if (devices.Count >= Space) throw new InvalidOperationException("Phòng đã đạt sức chứa tối đa.");
@@ -44,7 +44,7 @@ public class ClassRoom
   /// </summary>
   /// <param name="id">Mã thiết bị</param>
   /// <returns>Thiết bị tìm thấy hoặc null</returns>
-  public Device? FindDevice(string id)
+  public TeachingDevice? FindDevice(string id)
   {
     if (string.IsNullOrWhiteSpace(id)) return null;
     foreach (var dev in devices)
@@ -66,7 +66,7 @@ public class ClassRoom
   public bool RemoveDevice(string id)
   {
     if (string.IsNullOrWhiteSpace(id)) return false;
-    Device? devi = FindDevice(id);
+    TeachingDevice? devi = FindDevice(id);
     return devi != null && devices.Remove(devi);
   }
 
@@ -88,9 +88,9 @@ public class ClassRoom
   /// Lấy danh sách các thiết bị cần bảo trì
   /// </summary>
   /// <returns>Danh sách thiết bị cần bảo trì</returns>
-  public List<Device> GetDevicesRequiringMaintenance()
+  public List<TeachingDevice> GetDevicesRequiringMaintenance()
   {
-    List<Device> rmdevices = new List<Device>();
+    List<TeachingDevice> rmdevices = new List<TeachingDevice>();
     foreach (var dev in devices)
     {
       if (dev.Status == DeviceStatus.UnderMaintenance || (DateTime.Now.Year - dev.UsedYear > 5))
