@@ -15,6 +15,6 @@ public class ACRemote : TeachingDevice
 
   public override decimal CalculateAnnualMaintenanceCost()
   {
-    return Price + 100_000m;
+    return 0.4m*Price;
   }
 }
