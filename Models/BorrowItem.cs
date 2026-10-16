@@ -24,7 +24,7 @@ public class BorrowItem
     if (device == null) throw new ArgumentNullException(nameof(device), "Thiết bị không được rỗng.");
     if (dueDate < borrowedDate) throw new ArgumentOutOfRangeException(nameof(dueDate), "<!> Hạn trả thiết bị không hợp lệ [Cần thiết lập sau ngày mượn]");
     if (start <= 0 || end <= 0) throw new ArgumentException("<!> Số tiết mượn phải dương");
-    if (start - end < 0) throw new ArgumentException("<!> Tiết mượn không hợp lệ [Cần start >= end]");
+    if (start - end > 0) throw new ArgumentException("<!> Tiết mượn không hợp lệ [Cần start <= end]");
     this.Device = device;
     this.BorrowedDate = borrowedDate;
     this.DueDate = dueDate;

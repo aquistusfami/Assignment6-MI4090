@@ -60,10 +60,10 @@ public class BorrowingSlip
             {
                 continue;
             }
-            decimal totalLateDays = (item.ReturnedDate - item.DueDate).Value.Days;
+            double totalLateDays = Math.Ceiling((item.ReturnedDate - item.DueDate).Value.TotalDays);
             if (totalLateDays > 0)
             {
-                totalLateFee += 20_000m*totalLateDays;
+                totalLateFee += 20_000m*(decimal)totalLateDays;
             }
         }
         return totalLateFee;
@@ -72,7 +72,7 @@ public class BorrowingSlip
     public void ValidateBorrowing(TeachingDevice device, int borrowDays)
     {
         if (device == null) throw new ArgumentNullException(nameof(device), "<!> Thiết bị không được để trống!");
-        if (borrowDays <= 0) throw new InvalidBorrowPeriodException(device.DeviceId, borrowDays, 1);
+        if (borrowDays != 1) throw new InvalidBorrowPeriodException(device.DeviceId, borrowDays, 1);
         foreach (var item in Items)
         {
             if (item.Device.DeviceId == device.DeviceId)
@@ -85,12 +85,10 @@ public class BorrowingSlip
     public void ValidateReturned(string deviceId, DateTime returnedDate)
     {
         if (string.IsNullOrWhiteSpace(deviceId)) throw new ArgumentException("<!> Mã thiết bị không được trống");
-        foreach (var item in items)
-        {
-            if (item.Device.DeviceId != deviceId) throw new DeviceNotInSlipException(deviceId);
-            if (item.Device.DeviceId == deviceId && item.Device.Status == DeviceStatus.Available)
-            throw new DeviceAlreadyReturnedException(deviceId, DeviceStatus.Available);
-        }
-        if (returnedDate < BorrowedDate) throw new ArgumentOutOfRangeException(nameof(returnedDate), "<!> Ngày trả cần phải trước ngày mượn");
+        var item = items.Find(x => x.Device.DeviceId == deviceId);
+
+        if (item == null) throw new DeviceNotInSlipException(deviceId);
+        if (item.ReturnedDate != null) throw new DeviceAlreadyReturnedException(deviceId, item.Device.Status);
+        if (returnedDate < item.BorrowedDate) throw new ArgumentOutOfRangeException(nameof(returnedDate), "<!> Ngày trả không được trước ngày mượn");
     }
 }
