@@ -14,7 +14,7 @@ public class BorrowItem
   public int FromPeriod { get; set;} 
   public int ToPeriod { get; set; }
   public DateTime? ReturnedDate { get; private set; } 
-  public bool IsReturned { get; set; } 
+  public bool IsReturned => ReturnedDate != null;
 
   public BorrowItem(TeachingDevice device, DateTime borrowedDate, DateTime dueDate) : this(device, borrowedDate, dueDate, 1, 1)
   {
@@ -34,8 +34,11 @@ public class BorrowItem
 
   public void Return(DateTime returnedDate)
   {
+    if(IsReturned) throw new InvalidOperationException("<!> Thiết bị đã được trả");
+    if(returnedDate < BorrowedDate) throw new ArgumentOutOfRangeException(nameof(returnedDate),"<!> Thời điểm trả đồ không hợp lệ [Cần trả sau ngày mượn]");
+    if (Device.Status != DeviceStatus.Borrowed) throw new InvalidOperationException($"<!> Thiết bị không ở trạng thái đang được mượn.");
+    this.Device.MarkAsAvailable();
     this.ReturnedDate = returnedDate;
-    this.IsReturned = true;
   } 
 }
 

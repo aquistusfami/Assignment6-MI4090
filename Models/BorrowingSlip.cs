@@ -13,9 +13,9 @@ public class BorrowingSlip
     public ClassRoom TeachingRoom { get; }
     public DateTime BorrowedDate { get; }
     private readonly List<BorrowItem> items = new List<BorrowItem>();
-    public IReadOnlyList<BorrowItem> Items => items;
+    public IReadOnlyList<BorrowItem> Items => items.AsReadOnly();
 
-    public BorrowingSlip(string id, IBorrower borrower, ClassRoom room, DateTime date, IReadOnlyList<BorrowItem> item)
+    public BorrowingSlip(string id, IBorrower borrower, ClassRoom room, DateTime date)
     {
         if(string.IsNullOrWhiteSpace(id)) throw new ArgumentException("<!> Mã phiếu mượn không được trống!", nameof(id));
         if(borrower == null) throw new ArgumentNullException(nameof(borrower), "<!> Người mượn không được để trống!");
@@ -24,7 +24,6 @@ public class BorrowingSlip
         this.Borrower = borrower;
         this.TeachingRoom = room;
         this.BorrowedDate = date;
-        this.items = new List<BorrowItem>(item);
     }
 
     public void AddDevice(TeachingDevice device, int borrowDays)
@@ -46,7 +45,6 @@ public class BorrowingSlip
             if (item.Device.DeviceId == deviceId)
             {
                 item.Return(returnedDate);
-                item.Device.MarkAsAvailable();
             }
         }
     }
