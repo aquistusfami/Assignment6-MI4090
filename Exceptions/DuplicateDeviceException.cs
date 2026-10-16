@@ -10,7 +10,7 @@ public class DuplicateDeviceException : BorrowingException
 {
     string DeviceId;
 
-    public DuplicateDeviceException(string id) : base("<!> Thiết bị mã {id} đã có trong phiếu mượn")
+    public DuplicateDeviceException(string id) : base($"<!> Thiết bị mã {id} đã có trong phiếu mượn")
     {
         DeviceId = id;
     }
