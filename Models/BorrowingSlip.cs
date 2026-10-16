@@ -47,7 +47,6 @@ public class BorrowingSlip
             {
                 item.Return(returnedDate);
                 item.Device.MarkAsAvailable();
-                items.Remove(item);
             }
         }
     }
@@ -59,7 +58,7 @@ public class BorrowingSlip
         {
             if (item.ReturnedDate == null)
             {
-                return 0.0m;
+                continue;
             }
             decimal totalLateDays = (item.ReturnedDate - item.DueDate).Value.Days;
             if (totalLateDays > 0)
