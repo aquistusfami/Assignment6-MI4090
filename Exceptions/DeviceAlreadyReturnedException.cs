@@ -12,7 +12,7 @@ public class DeviceAlreadyReturnedException : BorrowingException
   public DeviceStatus CurrentStatus { get; }
 
   public DeviceAlreadyReturnedException(string id, DeviceStatus currStatus) 
-  : base($"<!> Thiết bị mã {id} đang ở trạng thái {currStatus}")
+  : base($"<!> Thiết bị mã {id} đã được trả và đang ở trạng thái {currStatus}")
   {
     DeviceId = id;
     CurrentStatus = currStatus;
