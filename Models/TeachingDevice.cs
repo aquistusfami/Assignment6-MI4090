@@ -8,7 +8,7 @@ namespace Assignment6_MI4090;
 
 public enum DeviceStatus 
 {
-  Active,
+  Available,
   Borrowed,
   UnderMaintenance
 }
@@ -60,5 +60,11 @@ public abstract class TeachingDevice
     $"(+) Năm đưa vào sử dụng: {UsedYear}" + Environment.NewLine +
     $"(+) Giá mua: {Price:N0} VND" + Environment.NewLine +
     $"(+) Trạng thái hoạt động: {Status}";
+  }
+
+  public void MarkAsBorrowed()
+  {
+    if (this.Status == DeviceStatus.Borrowed) throw new ArgumentException("<!> Thiết bị đã được mượn");
+    this.Status = DeviceStatus.Borrowed;
   }
 }
