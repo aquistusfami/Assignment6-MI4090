@@ -9,14 +9,14 @@ namespace Assignment6_MI4090;
 public class InvalidBorrowPeriodException : BorrowingException
 {
   public string DeviceId { get; }
-  public int fromPeriod { get; }
-  public int toPeriod { get; }
+  public int BorrowDays { get; }
+  public int MaxBorrowDays { get; }
 
-  public InvalidBorrowPeriodException(string id, int start, int end) 
-  : base($"<!> Thiết bị mã {id} cần có thời gian mượn hợp lệ. {start} , {end} đang là số âm.")
+  public InvalidBorrowPeriodException(string id, int borrowDays, int maxBorrowDays) 
+  : base($"<!> Thiết bị mã {id} có thời gian mượn {borrowDays} ngày không hợp lệ. Giới hạn mượn là {maxBorrowDays} ngày.")
   {
     DeviceId = id;
-    fromPeriod = start;
-    toPeriod = end;
+    BorrowDays = borrowDays;
+    MaxBorrowDays = maxBorrowDays;
   }
 }

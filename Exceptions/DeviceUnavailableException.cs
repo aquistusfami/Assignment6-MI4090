@@ -6,7 +6,7 @@ using System;
 
 namespace Assignment6_MI4090;
 
-public class DeviceUnavailableException : Exception 
+public class DeviceUnavailableException : BorrowingException 
 {
   public string DeviceId { get; }
   public DeviceStatus CurrentStatus { get; }
