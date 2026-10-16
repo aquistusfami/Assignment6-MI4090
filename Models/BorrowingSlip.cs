@@ -51,10 +51,23 @@ public class BorrowingSlip
         }
     }
 
-    // public decimal CalculateTotalLateFee()
-    // {
-        
-    // }
+    public decimal CalculateTotalLateFee()
+    {
+        decimal totalLateFee = 0.0m;
+        foreach (var item in items)
+        {
+            if (item.ReturnedDate == null)
+            {
+                return 0.0m;
+            }
+            decimal totalLateDays = (item.ReturnedDate - item.DueDate).Value.Days;
+            if (totalLateDays > 0)
+            {
+                totalLateFee += 20_000m*totalLateDays;
+            }
+        }
+        return totalLateFee;
+    }
 
     public void ValidateBorrowing(TeachingDevice device, int borrowDays)
     {
