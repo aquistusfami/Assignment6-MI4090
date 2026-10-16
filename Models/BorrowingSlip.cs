@@ -37,15 +37,24 @@ public class BorrowingSlip
         items.Add(item);
     }
 
-    public decimal ReturnDevice(string deviceId, DateTime returnedDate)
+    public void ReturnDevice(string deviceId, DateTime returnedDate)
     {
-        
+        ValidateReturned(deviceId, returnedDate);
+
+        foreach(var item in items)
+        {
+            if (item.Device.DeviceId == deviceId)
+            {
+                item.Return(returnedDate);
+                item.Device.MarkAsAvailable();
+            }
+        }
     }
 
-    public decimal CalculateTotalLateFee()
-    {
+    // public decimal CalculateTotalLateFee()
+    // {
         
-    }
+    // }
 
     public void ValidateBorrowing(TeachingDevice device, int borrowDays)
     {
@@ -58,5 +67,17 @@ public class BorrowingSlip
         }
         if (Items.Count >= Borrower.GetMaximumDevices()) throw new BorrowLimitExceededException(Borrower.BorrowerId, Borrower.GetMaximumDevices());
         if (device.Status != DeviceStatus.Available) throw new DeviceUnavailableException(device.DeviceId, device.Status);
+    }
+
+    public void ValidateReturned(string deviceId, DateTime returnedDate)
+    {
+        if (string.IsNullOrWhiteSpace(deviceId)) throw new ArgumentException("<!> Mã thiết bị không được trống");
+        foreach (var item in items)
+        {
+            if (item.Device.DeviceId != deviceId) throw new DeviceNotInSlipException(deviceId);
+            if (item.Device.DeviceId == deviceId && item.Device.Status == DeviceStatus.Available)
+            throw new DeviceAlreadyReturnedException(deviceId, DeviceStatus.Available);
+        }
+        if (returnedDate < BorrowedDate) throw new ArgumentOutOfRangeException(nameof(returnedDate), "<!> Ngày trả cần phải trước ngày mượn");
     }
 }

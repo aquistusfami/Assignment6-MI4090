@@ -34,8 +34,6 @@ public class BorrowItem
 
   public void Return(DateTime returnedDate)
   {
-    if(returnedDate < BorrowedDate) throw new ArgumentOutOfRangeException(nameof(returnedDate),"<!> Thời điểm trả đồ không hợp lệ [Cần trả sau ngày mượn]");
-    if(IsReturned) throw new InvalidOperationException("<!> Thiết bị đã được trả");
     this.ReturnedDate = returnedDate;
     this.IsReturned = true;
   } 

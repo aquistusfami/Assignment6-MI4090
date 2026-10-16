@@ -67,4 +67,10 @@ public abstract class TeachingDevice
     if (this.Status == DeviceStatus.Borrowed) throw new ArgumentException("<!> Thiết bị đã được mượn");
     this.Status = DeviceStatus.Borrowed;
   }
+
+  public void MarkAsAvailable()
+  {
+    if (this.Status == DeviceStatus.Available) throw new ArgumentException("<!> Thiết bị đã được trả");
+    this.Status = DeviceStatus.Available;
+  }
 }
