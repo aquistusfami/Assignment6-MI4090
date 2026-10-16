@@ -47,6 +47,7 @@ public class BorrowingSlip
             {
                 item.Return(returnedDate);
                 item.Device.MarkAsAvailable();
+                items.Remove(item);
             }
         }
     }
