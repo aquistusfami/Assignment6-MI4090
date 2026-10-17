@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp trợ giảng thực thi IBorrower
+/// </summary>
 public class TeachingAssistant : IBorrower 
 {
   public string BorrowerId { get; }

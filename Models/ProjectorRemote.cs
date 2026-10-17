@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp điều khiển máy chiếu dẫn xuất từ TeachingDevice
+/// </summary>
 public class ProjectorRemote : TeachingDevice
 {
   public ProjectorRemote(string id, string name, int usedYear, decimal price, DeviceStatus status) : base(id,name,usedYear,price,status)

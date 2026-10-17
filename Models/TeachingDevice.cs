@@ -62,6 +62,9 @@ public abstract class TeachingDevice
     $"(+) Trạng thái hoạt động: {Status}";
   }
 
+  /// <summary>
+  /// Đánh dấu đã được mượn 
+  /// </summary>
   public void MarkAsBorrowed()
   {
     if (this.Status == DeviceStatus.Borrowed || this.Status == DeviceStatus.UnderMaintenance) 
@@ -69,6 +72,9 @@ public abstract class TeachingDevice
     this.Status = DeviceStatus.Borrowed;
   }
 
+  /// <summary>
+  /// Đánh dấu đã được trả
+  /// </summary>
   public void MarkAsAvailable()
   {
     if (this.Status == DeviceStatus.Available) throw new ArgumentException("<!> Thiết bị đã được trả");

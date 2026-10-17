@@ -8,7 +8,7 @@ namespace Assignment6_MI4090;
 
 public class DuplicateDeviceException : BorrowingException
 {
-    string DeviceId;
+    public string DeviceId;
 
     public DuplicateDeviceException(string id) : base($"<!> Thiết bị mã {id} đã có trong phiếu mượn")
     {

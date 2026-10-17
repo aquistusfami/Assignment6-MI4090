@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp ngoại lệ thiết bị không trong phiếu mượn
+/// </summary>
 public class DeviceNotInSlipException : BorrowingException 
 {
   public string DeviceId { get; }

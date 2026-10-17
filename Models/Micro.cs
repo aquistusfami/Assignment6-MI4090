@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp micro dẫn xuất từ TeachingDevice
+/// </summary>
 public class Micro : TeachingDevice
 {
   public Micro(string id, string name, int usedYear, decimal price, DeviceStatus status) : base(id,name,usedYear,price,status)

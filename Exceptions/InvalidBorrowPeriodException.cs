@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp ngoại lệ ngày mượn không hợp lý
+/// </summary>
 public class InvalidBorrowPeriodException : BorrowingException
 {
   public string DeviceId { get; }

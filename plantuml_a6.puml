@@ -1,6 +1,8 @@
 @startuml uml_a6
 
 !pragma layout smetana
+skinparam backgroundColor white
+skinparam defaultFontName DejaVu Sans
 skinparam dpi 300
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
@@ -24,6 +26,7 @@ abstract class TeachingDevice <<abstract>> {
   + TeachingDevice(id : string, name : string,\n  usedYear : int, price : decimal,\n  status : DeviceStatus)
   + {abstract} CalculateAnnualMaintenanceCost() : decimal
   + MarkAsBorrowed() : void
+  + MarkAsAvailable() : void
   + ToString() : string
 }
 
@@ -31,7 +34,7 @@ abstract class TeachingDevice <<abstract>> {
 class ClassRoom {
   + ClassRoomId : string
   + ClassRoomName : string
-  + Space : int
+  + Space : decimal
   - devices : List<TeachingDevice>
   + ClassRoom(id : string, name : string,\n  space : int)
   + AddDevice(device : TeachingDevice) : void
@@ -51,22 +54,25 @@ interface IBorrower <<interface>> {
 class BorrowItem {
   + Device : TeachingDevice
   + BorrowedDate : DateTime
-  + fromPeriod : int
-  + toPeriod : int 
+  + DueDate : DateTime
+  + FromPeriod : int
+  + ToPeriod : int
   + ReturnedDate : DateTime?
   + IsReturned : bool
   + Return(returnedDate : DateTime) : void
 }
 
 class BorrowingSlip {
-  + SlipId : string 
+  + SlipId : string
   + Borrower : IBorrower
-  + TeachingRoom : string 
-  + BorrowedDate : DateTime 
+  + TeachingRoom : ClassRoom
+  + BorrowedDate : DateTime
   + Items : IReadOnlyList<BorrowItem>
   + AddDevice(device : TeachingDevice, borrowDays : int) : void
-  + ReturnDevice(deviceId : string, returnedDate : DateTime) : decimal
+  + ReturnDevice(deviceId : string, returnedDate : DateTime) : void
   + CalculateTotalLateFee() : decimal
+  + ValidateBorrowing(device : TeachingDevice, borrowDays : int) : void
+  + ValidateReturned(deviceId : string, returnedDate : DateTime) : void
 }
 
 class ACRemote {
@@ -102,7 +108,8 @@ TeachingDevice <|-- ProjectorRemote
 
 IBorrower <|.. Lecturer
 IBorrower <|.. TeachingAssistant
-ClassRoom "1    " o-- "0..*  " TeachingDevice : contains >
+ClassRoom "0..*  " o-- "0..*  " TeachingDevice : contains >
 TeachingDevice ..> DeviceStatus : <<use>>
-BorrowingSlip "1           " *-- "0..*  " BorrowItem
+BorrowingSlip "1   " *-- "0..*  " BorrowItem
+BorrowingSlip "0..*    " --> "1" ClassRoom : TeachingRoom
 @enduml

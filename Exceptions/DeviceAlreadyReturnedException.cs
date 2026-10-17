@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp ngoại lệ thiết bị đã được trả 
+/// </summary>
 public class DeviceAlreadyReturnedException : BorrowingException 
 {
   public string DeviceId { get; }

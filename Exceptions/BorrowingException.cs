@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp ngoại lệ mượn đồ
+/// </summary>
 public class BorrowingException : Exception
 {
   public BorrowingException(string message) : base(message)

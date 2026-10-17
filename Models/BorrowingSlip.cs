@@ -6,6 +6,9 @@ using System;
 
 namespace Assignment6_MI4090;
 
+/// <summary>
+/// Lớp phiếu mượn thiết bị
+/// </summary>
 public class BorrowingSlip
 {
     public string SlipId { get; }
@@ -14,7 +17,14 @@ public class BorrowingSlip
     public DateTime BorrowedDate { get; }
     private readonly List<BorrowItem> items = new List<BorrowItem>();
     public IReadOnlyList<BorrowItem> Items => items.AsReadOnly();
-
+    
+    /// <summary>
+    /// Khởi tạo phiếu mượn với các thông tin cần thiết
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="borrower"></param>
+    /// <param name="room"></param>
+    /// <param name="date"></param>
     public BorrowingSlip(string id, IBorrower borrower, ClassRoom room, DateTime date)
     {
         if(string.IsNullOrWhiteSpace(id)) throw new ArgumentException("<!> Mã phiếu mượn không được trống!", nameof(id));
@@ -26,6 +36,11 @@ public class BorrowingSlip
         this.BorrowedDate = date;
     }
 
+    /// <summary>
+    /// Thêm thiết bị vào phiếu mượn
+    /// </summary>
+    /// <param name="device"></param>
+    /// <param name="borrowDays"></param>
     public void AddDevice(TeachingDevice device, int borrowDays)
     {
         ValidateBorrowing(device, borrowDays);
@@ -35,7 +50,12 @@ public class BorrowingSlip
         device.MarkAsBorrowed();
         items.Add(item);
     }
-
+    
+    /// <summary>
+    /// Trả thiết bị
+    /// </summary>
+    /// <param name="deviceId"></param>
+    /// <param name="returnedDate"></param>
     public void ReturnDevice(string deviceId, DateTime returnedDate)
     {
         ValidateReturned(deviceId, returnedDate);
@@ -49,6 +69,10 @@ public class BorrowingSlip
         }
     }
 
+    /// <summary>
+    /// Tính tổng phí phạt trả thiết bị muộn 
+    /// </summary>
+    /// <returns></returns>
     public decimal CalculateTotalLateFee()
     {
         decimal totalLateFee = 0.0m;
@@ -67,6 +91,11 @@ public class BorrowingSlip
         return totalLateFee;
     }
 
+    /// <summary>
+    /// Phương thức kiểm soát đầu vào của AddDevice
+    /// </summary>
+    /// <param name="device"></param>
+    /// <param name="borrowDays"></param>
     public void ValidateBorrowing(TeachingDevice device, int borrowDays)
     {
         if (device == null) throw new ArgumentNullException(nameof(device), "<!> Thiết bị không được để trống!");
@@ -80,6 +109,11 @@ public class BorrowingSlip
         if (device.Status != DeviceStatus.Available) throw new DeviceUnavailableException(device.DeviceId, device.Status);
     }
 
+    /// <summary>
+    /// Phương thức kiểm soát đầu vào của ReturnDevice
+    /// </summary>
+    /// <param name="deviceId"></param>
+    /// <param name="returnedDate"></param>
     public void ValidateReturned(string deviceId, DateTime returnedDate)
     {
         if (string.IsNullOrWhiteSpace(deviceId)) throw new ArgumentException("<!> Mã thiết bị không được trống");
